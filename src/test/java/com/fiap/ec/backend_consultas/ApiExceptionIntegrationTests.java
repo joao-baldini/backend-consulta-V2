@@ -38,6 +38,13 @@ class ApiExceptionIntegrationTests {
     private PacienteRepository pacienteRepository;
 
     @Test
+    void deveInformarQueOBackendEstaDisponivel() throws Exception {
+        mockMvc.perform(get("/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
+    @Test
     void deveTraduzirErrosDeNegocioParaHttpComMensagem() throws Exception {
         String sufixo = Long.toString(Math.floorMod(System.nanoTime(), 1_000_000_000L));
         String crm = "CRM-TESTE-" + sufixo;
